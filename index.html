@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Bum Nexus giúp idol TikTok LIVE biến quà, tim và bình luận của fan thành hiệu ứng sống động trong OBS: hũ quà, Linh Thú, Troll bám mặt, BXH.">
+<title>Bum Nexus - Hiệu ứng TikTok LIVE cho idol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>if(!/[?&]motion=0/.test(location.search))document.documentElement.classList.add('force-motion')</script>
+<style>
+:root{--ink:#050505;--panel:#101012;--panel2:#17171a;--white:#f7f7f4;--muted:#a9a9ae;--pink:#fe2c55;--cyan:#25f4ee;--line:#2b2b30;--header:72px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--ink);color:var(--white);font-family:"Be Vietnam Pro",system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+button,a,input{font:inherit}
+a{color:inherit;text-decoration:none}
+button{color:inherit}
+img{display:block;max-width:100%}
+.wrap{width:min(1200px,calc(100% - 40px));margin-inline:auto}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E")}
+.topbar{position:absolute;top:0;left:0;right:0;z-index:20;height:var(--header);border-bottom:1px solid #ffffff1c;background:#050505b8;backdrop-filter:blur(14px)}
+.nav{height:100%;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.5px;font-size:19px;white-space:nowrap}
+.brand img{width:40px;height:40px;border-radius:11px;box-shadow:4px 3px 0 var(--cyan),-4px -3px 0 var(--pink)}
+.menu{margin-left:auto;display:flex;gap:24px;color:#d2d2d5;font-size:13px;font-weight:700}
+.menu a{transition:color .2s}
+.menu a:hover{color:var(--cyan)}
+.nav-download{padding:9px 16px;border:1px solid var(--white);font-size:13px;font-weight:900;box-shadow:3px 3px 0 var(--pink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:14px 24px;border:2px solid var(--white);font-weight:900;line-height:1.2;text-align:center;transition:transform .18s,box-shadow .18s,background .18s;cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px)}
+.btn-primary{background:var(--pink);color:#fff;box-shadow:6px 6px 0 var(--cyan)}
+.btn-primary:hover{box-shadow:9px 9px 0 var(--cyan)}
+.btn-secondary{background:#080808;box-shadow:6px 6px 0 var(--pink)}
+.btn-secondary:hover{box-shadow:9px 9px 0 var(--pink)}
+.hero{position:relative;min-height:100svh;padding-top:var(--header);display:flex;flex-direction:column;overflow:hidden;border-bottom:1px solid var(--line);isolation:isolate}
+.hero:before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:80px;background:var(--cyan);filter:blur(170px);opacity:.14;z-index:-1}
+.hero:after{content:"LIVE";position:absolute;right:-34px;bottom:-100px;font-weight:900;font-size:clamp(160px,24vw,350px);line-height:1;color:transparent;-webkit-text-stroke:1px #ffffff10;z-index:-1}
+.hero-grid{flex:1;display:grid;grid-template-columns:minmax(0,1.22fr) minmax(310px,.78fr);align-items:center;gap:44px;padding-block:46px 28px}
+.kicker,.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:2.2px;text-transform:uppercase}
+.kicker:before,.eyebrow:before{content:"";width:29px;height:4px;background:var(--pink);box-shadow:4px 3px 0 var(--cyan)}
+h1,h2,h3,p{margin-top:0}
+h1{max-width:850px;margin:16px 0 22px;font-size:clamp(50px,6.2vw,92px);line-height:1.16;letter-spacing:-2.5px;font-weight:900}
+.glitch{position:relative;color:var(--white);text-shadow:4px 3px 0 var(--pink),-4px -3px 0 var(--cyan)}
+.glitch .hot{color:var(--pink);text-shadow:4px 3px 0 var(--cyan)}
+.hero-lead{max-width:700px;margin-bottom:22px;color:#c8c8cc;font-size:clamp(15px,1.35vw,18px);line-height:1.65}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-actions .btn{min-width:220px}
+.trust{margin:18px 0 0;color:#99999f;font-size:12px;font-weight:600;letter-spacing:.15px}
+.trust b{color:var(--white)}
+.live-stage{position:relative;width:min(100%,390px);justify-self:end;aspect-ratio:4/5;border:2px solid var(--white);background:linear-gradient(145deg,#1b1b1e,#070707 60%);box-shadow:13px 13px 0 var(--pink),-11px -11px 0 var(--cyan);transform:rotate(2deg);overflow:hidden}
+.stage-top{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line);font-size:11px;font-weight:800}
+.live-dot{display:flex;align-items:center;gap:7px;color:var(--pink)}
+.live-dot:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 5px #fe2c5525;animation:pulse 1.4s infinite}
+.obs-screen{position:absolute;inset:53px 0 0;overflow:hidden;background:radial-gradient(circle at 50% 35%,#25f4ee22,transparent 40%),repeating-linear-gradient(0deg,transparent 0 28px,#ffffff08 29px),repeating-linear-gradient(90deg,transparent 0 28px,#ffffff08 29px)}
+.pet-hero{position:absolute;width:68%;left:16%;top:11%;filter:drop-shadow(0 18px 25px #000);animation:levitate 3.5s ease-in-out infinite}
+.gift-jar{position:absolute;left:21%;right:21%;bottom:8%;height:38%;border:4px solid #f7f7f4;border-top-width:8px;border-radius:12px 12px 55px 55px;background:linear-gradient(90deg,#25f4ee1c,#fe2c5526);box-shadow:inset 0 -24px 40px #fe2c5538,7px 8px 0 #25f4ee88}
+.gift-jar:before{content:"Hũ quà";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);font-size:21px;line-height:1;font-weight:900;color:var(--white);text-shadow:3px 3px 0 var(--pink);white-space:nowrap}
+.gift{position:absolute;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;font-size:15px;background:var(--pink);box-shadow:2px 2px 0 var(--cyan);animation:drop 3s linear infinite}
+.g1{left:15%;animation-delay:-.4s}.g2{left:73%;animation-delay:-1.7s}.g3{left:45%;animation-delay:-2.4s}
+.chat-pop{position:absolute;padding:7px 10px;background:#050505dd;border-left:3px solid var(--cyan);font-size:10px;font-weight:700;animation:pop 3s ease-in-out infinite}
+.c1{left:5%;top:45%}.c2{right:4%;top:30%;border-color:var(--pink);animation-delay:-1.4s}
+.marquee{height:48px;flex:none;display:flex;align-items:center;overflow:hidden;border-top:2px solid var(--white);border-bottom:2px solid var(--white);background:var(--cyan);color:#050505;transform:rotate(-.45deg) scale(1.01);position:relative;z-index:4}
+.track{display:flex;width:max-content;white-space:nowrap;animation:marquee 23s linear infinite}
+.track span{font-size:15px;font-weight:900;text-transform:uppercase;padding-right:28px}
+.track span:after{content:"✦";margin-left:28px;color:var(--pink)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes pulse{50%{opacity:.4}}
+@keyframes levitate{50%{transform:translateY(-11px) rotate(-2deg)}}
+@keyframes drop{0%{top:-35px;transform:rotate(0)}70%{top:67%;opacity:1}100%{top:72%;transform:rotate(380deg);opacity:0}}
+@keyframes pop{50%{transform:translateY(-8px)}}
+section{padding:105px 0}
+.section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.52fr);gap:40px;align-items:end;margin-bottom:46px}
+h2{margin:11px 0 0;font-size:clamp(36px,5vw,66px);line-height:1.18;letter-spacing:-1.5px;font-weight:900}
+.section-intro{margin:0;color:var(--muted);font-size:15px}
+.stats-wrap{padding:0;background:var(--pink);color:#fff;border-bottom:2px solid var(--white)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr)}
+.stat{padding:27px 18px;border-right:1px solid #ffffff44;text-align:center}
+.stat:last-child{border:0}
+.stat b{display:block;font-size:clamp(29px,3.5vw,48px);line-height:1;font-weight:900;text-shadow:3px 3px 0 #101010}
+.stat span{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+.features{background:linear-gradient(180deg,#080808,#111114)}
+.tabs-shell{display:grid;grid-template-columns:340px 1fr;border:1px solid var(--line);min-height:520px;background:var(--panel)}
+.tab-list{padding:12px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
+.tab{appearance:none;width:100%;padding:16px 15px;background:transparent;border:1px solid transparent;text-align:left;color:#8e8e94;font-size:13px;font-weight:800;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:12px}
+.tab b{display:grid;place-items:center;flex:0 0 29px;height:29px;border:1px solid #3a3a40;color:var(--white);font-size:10px}
+.tab:hover{color:var(--white);border-color:#3b3b40}
+.tab[aria-selected="true"]{background:var(--pink);color:#fff;border-color:var(--white);box-shadow:5px 5px 0 var(--cyan)}
+.tab[aria-selected="true"] b{background:#050505;border-color:#050505}
+.tab-panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,1.1fr);gap:32px;align-items:center;padding:48px}
+.tab-copy h3{font-size:clamp(27px,3vw,40px);line-height:1.22;letter-spacing:-1px;font-weight:900;margin-bottom:15px}
+.tab-copy p{color:var(--muted);font-size:15px;margin-bottom:22px}
+.checks{display:grid;gap:10px;font-size:13px;font-weight:700}
+.checks span:before{content:"//";color:var(--cyan);margin-right:10px;font-weight:900}
+.feature-art{min-height:350px;position:relative;display:grid;place-items:center;overflow:hidden;border:1px solid #3a3a40;background:linear-gradient(145deg,#161619,#080809)}
+.feature-art:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 23px,#ffffff08 24px),repeating-linear-gradient(90deg,transparent 0 23px,#ffffff08 24px)}
+.visual{position:relative;width:76%;z-index:1}
+.visual-title{font-size:clamp(40px,5.4vw,70px);line-height:1.15;text-align:center;font-weight:900;letter-spacing:-2px;color:var(--white);text-shadow:5px 4px 0 var(--pink),-5px -4px 0 var(--cyan)}
+.visual-bars{display:grid;gap:10px;margin-top:25px}
+.visual-bars i{display:block;height:12px;background:var(--cyan);border:1px solid var(--white);box-shadow:5px 4px 0 var(--pink)}
+.visual-bars i:nth-child(2){width:72%;background:var(--pink)}.visual-bars i:nth-child(3){width:88%}
+.pet-section{position:relative;background:#0b0b0d;overflow:hidden}
+.pet-section:after{content:"06";position:absolute;right:-20px;top:35px;color:#ffffff05;font-size:300px;font-weight:900;line-height:1;pointer-events:none}
+.pet-lab{position:relative;z-index:1;display:grid;grid-template-columns:.86fr 1.14fr;gap:54px;align-items:center}
+.pet-view{position:relative;min-height:510px;display:grid;place-items:center;border:2px solid var(--white);background:radial-gradient(circle at center,#fe2c5538,transparent 42%),repeating-linear-gradient(45deg,#0d0d0f 0 15px,#121214 15px 30px);box-shadow:12px 12px 0 var(--cyan)}
+.pet-view:before,.pet-view:after{position:absolute;font-size:11px;font-weight:900;letter-spacing:2px;color:var(--cyan)}
+.pet-view:before{content:"EVOLUTION FEED";top:18px;left:20px}.pet-view:after{content:"● LIVE";right:20px;top:18px;color:var(--pink)}
+#petImage{width:min(78%,390px);max-height:395px;object-fit:contain;filter:drop-shadow(0 28px 28px #000);transition:opacity .16s,transform .16s}
+#petImage.switching{opacity:0;transform:scale(.86) rotate(-4deg)}
+.pet-level{position:absolute;bottom:19px;left:20px;background:var(--pink);padding:6px 11px;font-size:11px;font-weight:900;box-shadow:4px 4px 0 var(--cyan)}
+.pet-controls h3{margin:12px 0 13px;font-size:clamp(34px,4vw,54px);line-height:1.18;letter-spacing:-1.2px;font-weight:900}
+.pet-controls>p{color:var(--muted);font-size:15px}
+.species-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 30px}
+.species-btn{border:1px solid #424248;background:#111114;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s}
+.species-btn:hover,.species-btn.active{background:var(--cyan);color:#050505;border-color:var(--white);box-shadow:3px 3px 0 var(--pink)}
+.range-labels{display:flex;justify-content:space-between;gap:8px;margin-bottom:9px;color:#8f8f94;font-size:11px;font-weight:800}
+input[type="range"]{appearance:none;width:100%;height:10px;border:1px solid var(--white);background:linear-gradient(90deg,var(--pink) var(--progress,0%),#303036 var(--progress,0%));cursor:pointer}
+input[type="range"]::-webkit-slider-thumb{appearance:none;width:28px;height:28px;border:3px solid var(--white);background:var(--pink);box-shadow:4px 4px 0 var(--cyan)}
+input[type="range"]::-moz-range-thumb{width:23px;height:23px;border:3px solid var(--white);border-radius:0;background:var(--pink);box-shadow:4px 4px 0 var(--cyan)}
+.realm-name{display:flex;align-items:center;justify-content:space-between;margin-top:19px;padding-top:18px;border-top:1px solid var(--line)}
+.realm-name b{font-size:21px}.realm-name span{font-size:11px;color:var(--cyan);font-weight:800;text-transform:uppercase}
+.realm-note{margin-top:24px;padding:15px 17px;border-left:4px solid var(--pink);background:#151518;color:#c5c5c8;font-size:13px}
+.troll-section{background:var(--cyan);color:#050505}
+.troll-section .eyebrow{color:#050505}.troll-section .eyebrow:before{background:#050505;box-shadow:4px 3px 0 var(--pink)}
+.troll-section .section-intro{color:#252528}
+.troll-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.troll-card{position:relative;min-height:300px;padding:27px 23px;background:#09090a;color:var(--white);border:2px solid #050505;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.troll-card:hover{transform:rotate(-1.5deg) translateY(-7px);box-shadow:10px 10px 0 var(--pink);animation:jolt .27s linear 2}
+.troll-card:nth-child(even):hover{transform:rotate(1.5deg) translateY(-7px)}
+.troll-card:after{content:"";position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.troll-card:hover:after{animation:flash .48s steps(2)}
+.troll-no{color:var(--pink);font-size:12px;font-weight:900;letter-spacing:2px}
+.troll-icon{font-size:63px;line-height:1;margin:27px 0 22px;filter:drop-shadow(4px 3px 0 var(--pink))}
+.troll-card h3{font-size:23px;line-height:1.25;margin-bottom:10px;font-weight:900}
+.troll-card p{font-size:13px;color:#aaaab0;margin:0}
+.mode-strip{margin-top:20px;display:flex;gap:8px;flex-wrap:wrap}
+.mode-strip span{padding:8px 12px;border:1px solid #050505;font-size:11px;font-weight:900;text-transform:uppercase;background:#ffffff66}
+@keyframes jolt{25%{translate:4px 0}75%{translate:-4px 0}}
+@keyframes flash{30%{opacity:.55}100%{opacity:0}}
+.steps-section{background:#080808}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step}
+.step{position:relative;min-height:285px;padding:30px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
+.step:before{counter-increment:step;content:"0" counter(step);display:block;margin-bottom:40px;font-size:70px;line-height:1;font-weight:900;color:var(--pink);text-shadow:4px 3px 0 var(--cyan)}
+.step:after{content:"";position:absolute;width:90px;height:90px;border:1px solid #ffffff13;border-radius:50%;right:-22px;top:-22px}
+.step h3{font-size:20px;margin-bottom:9px}.step p{color:var(--muted);font-size:14px;margin:0}
+code{color:var(--cyan);font-size:12px;background:#050505;border:1px solid #333;padding:2px 5px;word-break:break-all}
+.versions{background:linear-gradient(135deg,#18181b,#080808)}
+.version-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:950px;margin-inline:auto}
+.version{position:relative;padding:38px;border:1px solid var(--line);background:#0d0d0f}
+.version.recommended{border:2px solid var(--cyan);box-shadow:10px 10px 0 var(--pink)}
+.version-tag{display:inline-block;padding:5px 10px;margin-bottom:22px;background:#2b2b30;color:#c8c8cc;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+.recommended .version-tag{background:var(--cyan);color:#050505}
+.version h3{font-size:35px;line-height:1.2;margin-bottom:13px;font-weight:900}.version>p{min-height:52px;color:var(--muted);font-size:14px}
+.version ul{list-style:none;padding:0;margin:26px 0;display:grid;gap:12px;font-size:13px;font-weight:700}.version li:before{content:"✓";color:var(--pink);margin-right:10px;font-weight:900}
+.version .btn{width:100%}
+.faq-section{background:#080808}
+.faq{max-width:900px;margin-inline:auto}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;font-size:16px;font-weight:800}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";display:grid;place-items:center;flex:0 0 34px;height:34px;background:var(--pink);color:#fff;font-size:22px;box-shadow:3px 3px 0 var(--cyan)}
+details[open] summary:after{content:"−"}
+details p{max-width:760px;color:var(--muted);font-size:14px;margin:-5px 0 24px}
+.final-section{padding:80px 0;background:var(--pink);color:#fff}
+.final-box{text-align:center;padding:50px 20px;border:3px solid #050505;box-shadow:12px 12px 0 var(--cyan);background:radial-gradient(circle at 50% 120%,#25f4ee55,transparent 40%),var(--pink)}
+.final-box h2{max-width:900px;margin:0 auto 16px;text-shadow:5px 4px 0 #050505}.final-box p{margin:0 auto 28px;max-width:660px;font-weight:600}
+.final-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}.final-actions .btn-primary{background:#050505}
+footer{padding:34px 0 110px;background:#050505;border-top:1px solid var(--line);color:#8d8d93;font-size:12px}
+.footer-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer-brand{display:flex;align-items:center;gap:9px;color:var(--white);font-weight:900}.footer-brand img{width:30px;border-radius:8px}
+.sticky-cta{position:fixed;left:50%;bottom:18px;z-index:70;display:flex;gap:8px;width:min(620px,calc(100% - 28px));padding:8px;background:#080808e8;border:1px solid #ffffff44;backdrop-filter:blur(15px);transform:translate(-50%,150%);opacity:0;transition:transform .35s,opacity .35s;box-shadow:0 15px 50px #000}
+.sticky-cta.visible{transform:translate(-50%,0);opacity:1}
+.sticky-cta .btn{flex:1;min-height:46px;padding:10px 14px;font-size:13px;border-width:1px;box-shadow:none}
+@media (max-width:980px){
+  :root{--header:64px}.menu{display:none}.hero-grid{grid-template-columns:1fr .55fr;gap:24px}.live-stage{width:100%;min-width:270px}h1{font-size:clamp(48px,7.8vw,76px)}
+  .tabs-shell{grid-template-columns:260px 1fr}.tab-panel{grid-template-columns:1fr;padding:30px}.feature-art{min-height:270px}.pet-lab{grid-template-columns:1fr 1fr;gap:30px}.troll-grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(5,1fr)}
+}
+@media (max-width:700px){
+  .wrap{width:min(100% - 28px,1200px)}.nav{gap:15px}.brand{font-size:16px}.brand img{width:35px;height:35px}.nav-download{margin-left:auto;padding:7px 11px;font-size:11px}
+  .hero{min-height:100svh}.hero-grid{display:block;padding:31px 0 18px}.hero-copy{text-align:left}.kicker{font-size:9px;letter-spacing:1.3px}h1{font-size:clamp(38px,11.5vw,52px);letter-spacing:-1.5px;line-height:1.2;margin:12px 0 16px;max-width:100%}.hero-lead{font-size:12.5px;line-height:1.52;margin-bottom:14px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hero-actions .btn{min-width:0;min-height:47px;padding:9px 8px;font-size:11.5px}.trust{font-size:9.5px;margin-top:12px}.live-stage{display:none}.marquee{height:39px}.track span{font-size:11px}
+  section{padding:75px 0}.section-head{grid-template-columns:1fr;gap:17px;margin-bottom:30px}h2{font-size:clamp(32px,9.5vw,46px);letter-spacing:-1px}.section-intro{font-size:13px}
+  .stats{grid-template-columns:repeat(2,1fr)}.stat{padding:19px 8px}.stat:nth-child(2),.stat:nth-child(4){border-right:0}.stat:last-child{grid-column:1/-1;border-top:1px solid #ffffff44}.stat b{font-size:31px}.stat span{font-size:9px}
+  .tabs-shell{display:block;min-height:0}.tab-list{border-right:0;border-bottom:1px solid var(--line);flex-direction:row;overflow-x:auto;padding:9px;scrollbar-width:none}.tab-list::-webkit-scrollbar{display:none}.tab{flex:0 0 auto;width:auto;padding:10px 12px;font-size:11px}.tab span{white-space:nowrap}.tab-panel{padding:24px 18px;gap:24px}.tab-copy h3{font-size:28px}.tab-copy p{font-size:13px}.checks{font-size:11px}.feature-art{min-height:235px}.visual-title{font-size:43px}
+  .pet-lab{grid-template-columns:1fr;gap:35px}.pet-view{min-height:360px;box-shadow:8px 8px 0 var(--cyan)}#petImage{max-height:280px}.species-buttons{margin:21px 0}.species-btn{padding:8px 10px;font-size:10px}.range-labels{font-size:9px}.realm-name b{font-size:18px}
+  .troll-grid{grid-template-columns:1fr 1fr;gap:10px}.troll-card{min-height:250px;padding:20px 16px}.troll-icon{font-size:43px;margin:20px 0 17px}.troll-card h3{font-size:18px}.troll-card p{font-size:11px}.mode-strip span{padding:6px 8px;font-size:9px}
+  .steps{grid-template-columns:1fr}.step{min-height:0;padding:25px}.step:before{font-size:50px;margin-bottom:24px}.version-grid{grid-template-columns:1fr}.version{padding:28px 22px}.version>p{min-height:0}.final-box{padding:38px 15px}.final-box h2{font-size:clamp(27px,8.4vw,40px)}.final-actions{display:grid;grid-template-columns:1fr}.footer-row{align-items:flex-start;flex-direction:column}
+}
+@media (max-width:380px){
+  .brand{font-size:14px}.brand img{width:32px;height:32px}.nav-download{font-size:10px;padding:7px 8px}h1{font-size:36px}.hero-lead{font-size:11.5px}.hero-actions .btn{font-size:10.5px}.trust{font-size:8.7px}.troll-grid{grid-template-columns:1fr}.sticky-cta{bottom:8px;width:calc(100% - 16px)}.sticky-cta .btn{font-size:11px;padding-inline:7px}.pet-view{min-height:320px}
+}
+/* ===== Khung điện thoại xem trước (Live toolkit) ===== */
+.phone-stage{display:grid;place-items:center;padding:10px 0}
+.phone{position:relative;width:min(290px,100%);aspect-ratio:9/19;padding:11px;border-radius:44px;background:#0c0c0e;border:2px solid var(--white);box-shadow:12px 12px 0 var(--pink),-10px -10px 0 var(--cyan)}
+.phone:before{content:"";position:absolute;top:19px;left:50%;width:84px;height:22px;margin-left:-42px;border-radius:20px;background:#050505;z-index:3}
+.phone-btn{position:absolute;right:-6px;top:110px;width:4px;height:56px;border-radius:2px;background:var(--white)}
+.phone-screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#fe2c5530,transparent 55%),repeating-linear-gradient(0deg,transparent 0 23px,#ffffff08 24px),repeating-linear-gradient(90deg,transparent 0 23px,#ffffff08 24px),#111114}
+.phone-live{position:absolute;top:50px;left:14px;right:14px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;font-weight:800}
+.phone-live .live-dot{background:var(--pink);color:#fff;padding:2px 8px;border-radius:4px}
+.phone-live .live-dot:before{background:#fff;box-shadow:none}
+.phone-live #phoneLabel{color:#ffffffcc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone-media{position:absolute;inset:0;opacity:0;transition:opacity .35s}
+.phone-media.ready{opacity:1}
+.phone-media img,.phone-media video{width:100%;height:100%;object-fit:cover;display:block}
+.phone-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;text-align:center}
+.phone-empty[hidden]{display:none}
+.phone-empty .visual-title{font-size:clamp(34px,3.4vw,46px)}
+.phone-empty .visual-bars{width:80%;margin-top:22px}
+.phone-hint{margin-top:22px;font-size:10px;color:#ffffff80;word-break:break-all}
+/* ===== Icon SVG trong nút ===== */
+.i{width:1.15em;height:1.15em;flex:none;display:inline-block;vertical-align:-.18em}
+.i-inline{width:1em;height:1em;margin:0 .15em;color:var(--cyan)}
+.nav-download{display:inline-flex;align-items:center;gap:7px}
+.btn .i{width:20px;height:20px}
+.btn-primary:hover .i use[href="#i-download"]{animation:dl .6s ease}
+@keyframes dl{40%{transform:translateY(3px)}}
+/* ===== 3 bước + demo app ===== */
+.steps{grid-template-columns:1fr 1fr!important}
+.step-wide{grid-column:1/-1;display:flex;align-items:center;gap:32px;min-height:0!important}
+.step-wide:before{margin:0!important}
+.step-wide .step-body{flex:1}
+.step-wide .btn{flex:none;min-width:220px}
+.app-demo{position:relative;margin-top:26px;padding:22px;border:1px solid #ffffff14;background:radial-gradient(circle at 20% 0%,#7654ff26,transparent 55%),#08080b;overflow:hidden;font-size:13px;line-height:1.4}
+.app-card{position:relative;max-width:420px;margin:0 auto;padding:18px;border:1px solid #ffffff14;border-radius:20px;background:linear-gradient(160deg,#14161ee6,#0a0b11d6);box-shadow:0 20px 50px #0008,inset 0 1px 0 #ffffff08}
+.app-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.app-logo{width:44px;height:44px;border-radius:13px;flex:none;object-fit:contain}
+.app-head>div{flex:1;min-width:0}
+.app-head b{display:block;font-size:16px;color:#fff;font-weight:800}
+.app-head small{display:block;margin-top:3px;color:#7f8497;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-pill{flex:none;padding:5px 10px;border:1px solid #ffffff14;border-radius:99px;color:#8e93a6;background:#ffffff09;font-size:10.5px;font-weight:750;transition:.3s}
+.app-pill.connecting{color:#fcd34d;border-color:#fbbf242e;background:#fbbf2412}
+.app-pill.connected{color:#5ee7af;border-color:#34d3992e;background:#10b98114}
+.app-field{display:block}
+.app-field>span{display:block;margin:0 2px 7px;color:#9da1b2;font-size:12px;font-weight:700}
+.app-input{position:relative;height:50px;display:flex;align-items:center;padding:0 15px;border:1px solid #ffffff14;border-radius:13px;background:#06070b94;color:#fff;font-size:15px;font-weight:600;transition:.2s}
+.app-input.focus{border-color:#7c5cff80;box-shadow:0 0 0 3px #7c5cff14}
+.app-input.locked{opacity:.55}
+.app-input em{position:absolute;left:15px;color:#5d6273;font-style:normal;font-weight:500}
+.app-input.has em{display:none}
+.app-caret{display:none;width:2px;height:20px;margin-left:2px;background:#a78bfa;animation:blink 1s steps(1) infinite}
+.app-input.focus .app-caret{display:block}
+@keyframes blink{50%{opacity:0}}
+.app-btn{width:100%;height:50px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #8b74ff7a;border-radius:13px;color:#fff;background:linear-gradient(135deg,#7654ff,#5730e8);box-shadow:0 9px 24px #5c37e638,inset 0 1px 0 #ffffff2e;font-size:13.5px;font-weight:800;cursor:default;transition:transform .12s,filter .2s;font-family:inherit}
+.app-btn .i{width:17px;height:17px}
+.app-btn.ghost{border-color:#ffffff14;color:#c5c8d3;background:#ffffff0a;box-shadow:none;font-size:12.5px}
+.app-btn.danger{border-color:#fb718559;background:linear-gradient(135deg,#e84967,#be2945);box-shadow:0 9px 24px #e1294929}
+.app-btn.press{transform:scale(.96);filter:brightness(1.2)}
+.app-btn.busy .i{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.app-actions{position:relative;margin-top:14px}
+.app-split{display:none;grid-template-columns:.8fr 1.2fr;gap:9px}
+.app-actions.done [data-connect]{display:none}
+.app-actions.done .app-split{display:grid;animation:swap .4s cubic-bezier(.2,.7,.2,1)}
+.app-footer{display:grid;grid-template-columns:1.3fr 1fr;gap:9px}
+.app-footer .app-btn{font-size:12.5px;padding:0 8px}
+.app-toast{position:relative;max-width:420px;margin:14px auto 0;display:flex;align-items:center;gap:9px;padding:11px 14px;border:1px solid #34d39940;border-radius:12px;background:#0f2a22;color:#c9f7e3;font-size:12.5px;font-weight:600;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}
+.app-toast .i{color:#34d399;width:18px;height:18px}
+.app-toast.show{opacity:1;transform:none}
+.app-cursor{position:absolute;left:0;top:0;z-index:5;width:26px;height:26px;pointer-events:none;opacity:0;transition:transform .7s cubic-bezier(.5,0,.2,1),opacity .3s;filter:drop-shadow(2px 3px 2px #000a)}
+.app-cursor svg{width:100%;height:100%;fill:#fff;stroke:#050505;stroke-width:1.5}
+.app-cursor.click svg{transform:scale(.82);transition:transform .1s}
+.app-cursor:after{content:"";position:absolute;left:-8px;top:-8px;width:20px;height:20px;border-radius:50%;border:2px solid var(--cyan);opacity:0}
+.app-cursor.click:after{animation:ripple .5s ease-out}
+@keyframes ripple{from{opacity:1;transform:scale(.4)}to{opacity:0;transform:scale(2)}}
+.obs-dock{max-width:420px;margin:14px auto 0;border:1px solid #ffffff14;border-radius:12px;background:#1b1c22;overflow:hidden;font-size:12px}
+.obs-dock-head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#24252d;color:#d6d7de;font-weight:700}
+.obs-dock-head small{color:#8a8ea0;font-weight:500;font-size:11px}
+.obs-dock ul{list-style:none;margin:0;padding:6px}
+.obs-dock li{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:7px;color:#e5e6eb;font-weight:600}
+.obs-dock li .i{margin-left:auto;color:#8a8ea0;width:15px;height:15px}
+.obs-ico{width:16px;height:12px;border-radius:2px;border:1.5px solid #9aa0b4;position:relative}
+.obs-ico:after{content:"";position:absolute;inset:2px 3px;border-top:1.5px solid #9aa0b4}
+.obs-ico.cam{border-radius:3px}
+.obs-dock li[data-src]{display:none}
+.obs-dock li[data-src].in{display:flex;animation:srcIn .45s cubic-bezier(.2,.7,.2,1);background:#7654ff26}
+@keyframes srcIn{from{opacity:0;transform:translateX(-16px);max-height:0}to{opacity:1;transform:none;max-height:40px}}
+.obs-dock li.obs-cam{color:#9a9db0}
+@media (max-width:980px){.steps{grid-template-columns:1fr!important}}
+@media (max-width:700px){.step-wide{flex-direction:column;align-items:stretch;gap:18px}.step-wide .btn{min-width:0}.app-demo{padding:14px;margin-left:-10px;margin-right:-10px}.app-card{padding:14px}.app-head small{white-space:normal}.app-footer{grid-template-columns:1fr}}
+/* ===== Icon ===== */
+.troll-icon img{width:78px;height:78px;display:block}
+.gift img{width:15px;height:15px}
+.heart img{width:26px;height:26px;display:block}
+/* ===== Animation ===== */
+.topbar{position:fixed;transition:background .3s,box-shadow .3s,height .3s}
+.topbar.scrolled{background:#050505ee;box-shadow:0 10px 30px #000a}
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:90;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--pink),var(--cyan));pointer-events:none}
+/* tiêu đề tách từng dòng */
+.line{display:block}
+h1 .line{white-space:nowrap}
+.js .anim-lines .line{opacity:0;transform:translateY(.45em);filter:blur(8px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),filter .7s;transition-delay:calc(var(--i,0) * 130ms + var(--d,0ms))}
+.js .anim-lines.in .line{opacity:1;transform:none;filter:none}
+/* hero vào trang */
+.js .hero-in{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0ms)}
+.js .loaded .hero-in{opacity:1;transform:none}
+.js .live-stage.hero-in{transform:translateX(60px) rotate(8deg)}
+.js .loaded .live-stage.hero-in{transform:rotate(2deg)}
+.js .live-stage.hero-in{transition:opacity .8s ease .3s,transform .9s cubic-bezier(.2,.7,.2,1) .3s}
+.js .loaded .live-stage.hero-in.tilting{transition:transform .25s ease-out}
+/* hiện dần khi cuộn */
+.js [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 90ms)}
+.js [data-reveal="left"]{transform:translateX(-50px)}
+.js [data-reveal="right"]{transform:translateX(50px)}
+.js [data-reveal="zoom"]{transform:scale(.9)}
+.js [data-reveal].in{opacity:1;transform:none}
+/* tim bay lên */
+.heart{position:absolute;bottom:6%;z-index:3;font-size:18px;pointer-events:none;animation:heart 2.6s ease-out forwards}
+@keyframes heart{0%{opacity:0;transform:translate(0,0) scale(.4)}12%{opacity:1;transform:translate(0,-20px) scale(1.1)}100%{opacity:0;transform:translate(var(--x,20px),-300px) scale(.8) rotate(var(--r,20deg))}}
+/* nút có vệt sáng */
+.btn{position:relative;overflow:hidden}
+.btn:after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,#ffffff55,transparent);transform:skewX(-20deg);transition:left .55s}
+.btn:hover:after{left:130%}
+.hero-actions .btn-primary{animation:nudge 3.2s ease-in-out 2.2s infinite}
+@keyframes nudge{0%,88%,100%{transform:none}92%{transform:translate(-2px,-3px)}96%{transform:translate(1px,0)}}
+/* tab đổi nội dung */
+.swap{animation:swap .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes swap{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.visual-bars i{transform-origin:0 50%}
+.swap .visual-bars i{animation:bar .7s cubic-bezier(.2,.7,.2,1) both}
+.swap .visual-bars i:nth-child(2){animation-delay:.1s}.swap .visual-bars i:nth-child(3){animation-delay:.2s}
+@keyframes bar{from{transform:scaleX(0)}}
+/* Linh Thú lên cấp */
+.burst{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:3px solid var(--cyan);pointer-events:none;opacity:0}
+.burst.go{animation:burst .7s ease-out}
+@keyframes burst{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(3.4);border-width:1px}}
+.spark{position:absolute;left:50%;top:50%;width:8px;height:8px;background:var(--pink);box-shadow:2px 2px 0 var(--cyan);pointer-events:none;animation:spark .8s ease-out forwards}
+@keyframes spark{from{opacity:1;transform:translate(-50%,-50%)}to{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) rotate(180deg)}}
+#petImage{animation:idle 3.6s ease-in-out infinite}
+@keyframes idle{50%{translate:0 -10px}}
+/* số đếm */
+.stat b{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion).js .anim-lines .line,html:not(.force-motion).js .hero-in,html:not(.force-motion).js [data-reveal]{opacity:1!important;transform:none!important;filter:none!important}html:not(.force-motion) .heart,html:not(.force-motion) .spark,html:not(.force-motion) .burst{display:none}}
+@media (prefers-reduced-motion:reduce){html:not(.force-motion){scroll-behavior:auto}html:not(.force-motion) *,html:not(.force-motion) *:before,html:not(.force-motion) *:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}html:not(.force-motion) .track{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M6.5 10.5 12 16l5.5-5.5"/><path d="M4 20h16"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="3"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2 4 14h7l-1.5 8L19 10h-7z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-wand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 15 9"/><path d="m13 7 4 4"/><path d="M18 3v3M16.5 4.5h3M20 9v2M19 10h2M10 3v2M9 4h2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4.5L20 15"/><path d="M20 20v-5h-5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  </defs>
+</svg>
+<div class="noise" aria-hidden="true"></div>
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="assets/icon.png" alt="Logo Bum Nexus">BUM NEXUS</a>
+    <nav class="menu" aria-label="Điều hướng chính">
+      <a href="#tinh-nang">Tính năng</a><a href="#linh-thu">Linh Thú</a><a href="#troll">Troll</a><a href="#bat-dau">Cài đặt</a><a href="#hoi-dap">Hỏi đáp</a>
+    </nav>
+    <a class="nav-download" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="tai-xuong">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="kicker">Dành cho idol TikTok LIVE</span>
+        <h1 class="glitch">Biến quà tặng<br>thành <span class="hot">màn</span><br><span class="hot">trình diễn.</span></h1>
+        <p class="hero-lead">Mỗi món quà, lượt tim, bình luận của fan đều hiện thành hiệu ứng trên màn hình live của idol: hũ quà vật lý, Linh Thú tiến hóa, Troll bám mặt, BXH và soundboard. Idol chỉ việc live, Bum Nexus lo phần quẩy.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a>
+          <a class="btn btn-secondary" href="https://zalo.me/0393251599" target="_blank" rel="noopener"><svg class="i"><use href="#i-chat"/></svg>Liên hệ hỗ trợ Zalo</a>
+        </div>
+        <p class="trust"><b>Dùng thử miễn phí</b> · Windows 10/11 · Bản 3.5.1 · Tự cập nhật</p>
+      </div>
+      <div class="live-stage" aria-label="Minh họa overlay Bum Nexus trong OBS">
+        <div class="stage-top"><span>OBS / BROWSER SOURCE</span><span class="live-dot">LIVE FEED</span></div>
+        <div class="obs-screen">
+          <img class="pet-hero" src="assets/pets/rong-5.webp" alt="Thần Thú Rồng Lửa">
+          <span class="gift g1"><img src="assets/icons/tim.svg" alt=""></span><span class="gift g2"><img src="assets/icons/sao.svg" alt=""></span><span class="gift g3"><img src="assets/icons/qua.svg" alt=""></span>
+          <span class="chat-pop c1">@fan_cung tặng Hoa hồng</span><span class="chat-pop c2">Combo × 12</span>
+          <div class="gift-jar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="marquee" aria-label="Các tính năng nổi bật">
+      <div class="track"><span>Hũ quà vật lý</span><span>Linh Thú tiến hóa</span><span>Troll bám mặt</span><span>BXH Donate</span><span>Soundboard & TTS</span><span>Vòng quay Random</span><span>Hũ quà vật lý</span><span>Linh Thú tiến hóa</span><span>Troll bám mặt</span><span>BXH Donate</span><span>Soundboard & TTS</span><span>Vòng quay Random</span></div>
+    </div>
+  </section>
+
+  <section class="stats-wrap" aria-label="Thông số nổi bật">
+    <div class="wrap stats">
+      <div class="stat"><b>06</b><span>Loài Linh Thú</span></div><div class="stat"><b>08</b><span>Cảnh giới</span></div><div class="stat"><b>04</b><span>Hiệu ứng Troll</span></div><div class="stat"><b>09</b><span>Mẫu hũ quà</span></div><div class="stat"><b>5K</b><span>Lượt hàng chờ</span></div>
+    </div>
+  </section>
+
+  <section class="features" id="tinh-nang">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Live toolkit</span><h2>Một app.<br>Đủ trò cho idol.</h2></div>
+        <p class="section-intro">Idol không cần ghép nhiều phần mềm. Chọn từng mục để xem phòng live chuyển động thế nào mỗi khi fan tương tác.</p>
+      </div>
+      <div class="tabs-shell">
+        <div class="tab-list" role="tablist" aria-label="Nhóm tính năng">
+          <button class="tab" role="tab" aria-selected="true" data-tab="gift"><b>01</b><span>Quà & hũ vật lý</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="pet"><b>02</b><span>Linh Thú</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="troll"><b>03</b><span>Troll bám mặt</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="random"><b>04</b><span>Random & vào phòng</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="rank"><b>05</b><span>BXH & TOP 3</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="sound"><b>06</b><span>Chat, TTS & soundboard</span></button>
+        </div>
+        <div class="tab-panel" role="tabpanel" aria-live="polite">
+          <div class="tab-copy"><h3 id="tabTitle"></h3><p id="tabDescription"></p><div class="checks" id="tabChecks"></div></div>
+          <div class="phone-stage">
+            <div class="phone">
+              <span class="phone-btn"></span>
+              <div class="phone-screen" id="phoneScreen">
+                <div class="phone-live"><span class="live-dot">LIVE</span><span id="phoneLabel"></span></div>
+                <div class="phone-media" id="phoneMedia"></div>
+                <div class="phone-empty" id="phoneEmpty">
+                  <div class="visual-title" id="visualTitle"></div>
+                  <div class="visual-bars"><i></i><i></i><i></i></div>
+                  <small class="phone-hint" id="phoneHint"></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pet-section" id="linh-thu">
+    <div class="wrap pet-lab">
+      <div class="pet-view">
+        <img id="petImage" src="assets/pets/rong-0.webp" alt="Trứng Rồng Lửa">
+        <span class="pet-level" id="petLevel">Cấp 01 / 06</span>
+      </div>
+      <div class="pet-controls">
+        <span class="eyebrow">Linh Thú</span>
+        <h3>Fan nuôi thú.<br>Hẹn idol mỗi live.</h3>
+        <p>Fan tặng quà để triệu hồi trứng, rồi quay lại phòng của idol mỗi phiên live để nuôi thú lớn dần. Kéo thanh tiến hóa và chọn loài để xem hành trình.</p>
+        <div class="species-buttons" aria-label="Chọn loài Linh Thú">
+          <button class="species-btn" data-species="tho" data-name="Thỏ Mây">Thỏ</button><button class="species-btn" data-species="cao" data-name="Cáo Ngọc">Cáo</button><button class="species-btn active" data-species="rong" data-name="Rồng Lửa">Rồng</button><button class="species-btn" data-species="khunglong" data-name="Khủng Long Lục Bảo">Khủng long</button><button class="species-btn" data-species="sutu" data-name="Sư Tử Liệt Hỏa">Sư tử</button><button class="species-btn" data-species="soi" data-name="Sói Nguyệt Quang">Sói</button>
+        </div>
+        <div class="range-labels"><span>TRỨNG</span><span>NON</span><span>THIẾU NIÊN</span><span>TRƯỞNG THÀNH</span><span>LINH THÚ</span><span>THẦN THÚ</span></div>
+        <input id="evolution" type="range" min="0" max="5" value="0" step="1" aria-label="Cấp tiến hóa Linh Thú">
+        <div class="realm-name"><b id="realmTitle">Trứng · Rồng Lửa</b><span id="realmMeta">Khởi đầu hành trình</span></div>
+        <div class="realm-note">Sau Thần Thú còn Thánh Thú và Tiên Thú: Độ Kiếp, Phi Thăng, rồi Trùng Sinh - cả phòng live của idol cùng hộ pháp cho thú của fan.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="troll-section" id="troll">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Troll cam</span><h2>Fan tặng quà.<br>Idol dính đòn.</h2></div>
+        <p class="section-intro">Hiệu ứng tự bám theo khuôn mặt idol qua nguồn camera trong OBS, không tranh camera. Fan càng tặng, idol càng “lãnh đủ”, phòng live càng vui. Rê chuột lên thẻ để thử đòn.</p>
+      </div>
+      <div class="troll-grid">
+        <article class="troll-card"><span class="troll-no">TROLL / 01</span><div class="troll-icon"><img src="assets/icons/bom.svg" alt=""></div><h3>Nổ đen mặt</h3><p>Chim thả bom, nổ tung, mặt đen kèm vòng LOADING.</p></article>
+        <article class="troll-card"><span class="troll-no">TROLL / 02</span><div class="troll-icon"><img src="assets/icons/dien-giat.svg" alt=""></div><h3>Điện giật</h3><p>Sét đánh lóe khung hình, lộ bộ xương X-quang.</p></article>
+        <article class="troll-card"><span class="troll-no">TROLL / 03</span><div class="troll-icon"><img src="assets/icons/bi-tat.svg" alt=""></div><h3>Bị tát</h3><p>Quát “Láo!”, rung khung và in dấu tay đỏ ngay trên mặt.</p></article>
+        <article class="troll-card"><span class="troll-no">TROLL / 04</span><div class="troll-icon"><img src="assets/icons/nem-ban.svg" alt=""></div><h3>Ném bẩn</h3><p>Vật thể bay thẳng vào mặt và để lại vết bẩn tại chỗ.</p></article>
+      </div>
+      <div class="mode-strip"><span>Phát đè · tối đa 6 lượt</span><span>Xếp hàng</span><span>Bỏ qua</span></div>
+    </div>
+  </section>
+
+  <section class="steps-section" id="bat-dau">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Bắt đầu</span><h2>Idol lên sóng<br>trong 3 bước.</h2></div><p class="section-intro">Không cần biết kỹ thuật. Cài app, nhập ID kênh TikTok, rồi bấm một nút để thêm nguồn vào OBS.</p></div>
+      <div class="steps">
+        <article class="step step-wide">
+          <div class="step-body"><h3>Tải và cài app</h3><p>Chạy bộ cài cho Windows. Nếu Windows hỏi lại, chọn “Thông tin thêm” <svg class="i i-inline"><use href="#i-arrow"/></svg> “Vẫn chạy” để cài tiếp.</p></div>
+          <a class="btn btn-primary" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a>
+        </article>
+        <article class="step">
+          <h3>Kết nối TikTok LIVE</h3><p>Chỉ cần nhập ID kênh TikTok của idol rồi bấm “Kết nối trực tiếp”. Lần sau app tự nhớ ID.</p>
+          <div class="app-demo" id="demoTiktok" aria-label="Minh họa kết nối TikTok LIVE trong app">
+            <div class="app-card">
+              <div class="app-head">
+                <img class="app-logo" src="assets/brand/tiktok.svg" alt="">
+                <div><b>Kết nối TikTok LIVE</b><small>Nhập ID kênh để nhận quà và sự kiện trực tiếp</small></div>
+                <span class="app-pill" data-pill>Ngoại tuyến</span>
+              </div>
+              <label class="app-field"><span>ID kênh TikTok</span><div class="app-input" data-input><span data-text></span><i class="app-caret"></i><em data-ph>Ví dụ: bumnexus</em></div></label>
+              <div class="app-actions" data-actions>
+                <button type="button" class="app-btn" data-connect tabindex="-1"><svg class="i"><use href="#i-bolt"/></svg><span data-label>Kết nối trực tiếp</span></button>
+                <div class="app-split" data-split>
+                  <button type="button" class="app-btn ghost" tabindex="-1"><svg class="i"><use href="#i-edit"/></svg>Đổi ID</button>
+                  <button type="button" class="app-btn danger" tabindex="-1"><svg class="i"><use href="#i-stop"/></svg>Ngắt kết nối</button>
+                </div>
+              </div>
+            </div>
+            <div class="app-toast" data-toast><svg class="i"><use href="#i-check"/></svg><span>Đã kết nối <b>@207bum</b>, đang nhận quà</span></div>
+            <span class="app-cursor" data-cursor><svg viewBox="0 0 24 24"><path d="M4 2l15 11-7 1 4 8-3 1-4-8-5 5z"/></svg></span>
+          </div>
+        </article>
+        <article class="step">
+          <h3>Thêm nguồn vào OBS</h3><p>Bấm một nút “Thêm & sửa tất cả nguồn”, app tự thêm hũ quà, Troll, soundboard vào cảnh đang phát, đúng khung. Chỉ cần bật WebSocket trong OBS một lần.</p>
+          <div class="app-demo" id="demoObs" aria-label="Minh họa thêm nguồn vào OBS bằng một nút">
+            <div class="app-card">
+              <div class="app-head">
+                <img class="app-logo" src="assets/brand/obs.png" alt="">
+                <div><b>Nguồn OBS</b><small data-sub>Thêm, sửa và tải lại mọi overlay ngay tại đây</small></div>
+                <span class="app-pill connected">OBS đã nối</span>
+              </div>
+              <div class="app-footer">
+                <button type="button" class="app-btn" data-fix tabindex="-1"><svg class="i"><use href="#i-wand"/></svg><span data-label>Thêm & sửa tất cả nguồn</span></button>
+                <button type="button" class="app-btn ghost" tabindex="-1"><svg class="i"><use href="#i-refresh"/></svg>Tải lại tất cả</button>
+              </div>
+            </div>
+            <div class="obs-dock" data-dock>
+              <div class="obs-dock-head"><span>Nguồn</span><small>Cảnh: Live TikTok</small></div>
+              <ul data-list>
+                <li data-src><span class="obs-ico"></span>Hũ quà<svg class="i"><use href="#i-eye"/></svg></li>
+                <li data-src><span class="obs-ico"></span>Hiệu ứng Troll<svg class="i"><use href="#i-eye"/></svg></li>
+                <li data-src><span class="obs-ico"></span>Soundboard<svg class="i"><use href="#i-eye"/></svg></li>
+                <li class="obs-cam"><span class="obs-ico cam"></span>Camera<svg class="i"><use href="#i-eye"/></svg></li>
+              </ul>
+            </div>
+            <div class="app-toast" data-toast><svg class="i"><use href="#i-check"/></svg><span>Đã thêm 3 nguồn: Hũ quà, Hiệu ứng Troll, Soundboard</span></div>
+            <span class="app-cursor" data-cursor><svg viewBox="0 0 24 24"><path d="M4 2l15 11-7 1 4 8-3 1-4-8-5 5z"/></svg></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="versions" id="phien-ban">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Phiên bản</span><h2>Thử đủ.<br>Chọn sau.</h2></div><p class="section-intro">Idol dùng Full Trial để thử trọn bộ ngay trong buổi live thật. Muốn dùng lâu dài, nhắn Zalo để được lên bản Full.</p></div>
+      <div class="version-grid">
+        <article class="version recommended"><span class="version-tag">Bắt đầu tại đây</span><h3>Full Trial</h3><p>Bản dùng thử miễn phí, đủ tính năng để idol chạy thử một buổi live thật.</p><ul><li>Đủ bộ công cụ overlay</li><li>Hũ quà, Linh Thú và Troll</li><li>Tự cập nhật phiên bản mới</li></ul><a class="btn btn-primary" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a></article>
+        <article class="version"><span class="version-tag">Dùng lâu dài</span><h3>Full</h3><p>Bản quyền đầy đủ cho idol live đều đặn, giữ chân fan mỗi ngày.</p><ul><li>Giữ toàn bộ tính năng</li><li>Hỗ trợ cài đặt tận nơi</li><li>Tư vấn trực tiếp qua Zalo</li></ul><a class="btn btn-secondary" href="https://zalo.me/0393251599" target="_blank" rel="noopener"><svg class="i"><use href="#i-chat"/></svg>Liên hệ hỗ trợ Zalo</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section" id="hoi-dap">
+    <div class="wrap faq">
+      <div class="section-head"><div><span class="eyebrow">Hỏi đáp</span><h2>Chưa rõ?<br>Xem ở đây.</h2></div></div>
+      <details><summary>Windows hiện màn hình xanh khi cài, phải làm sao?</summary><p>Đây là thông báo Windows thường hiện với ứng dụng mới tải về. Idol bấm “Thông tin thêm” rồi “Vẫn chạy” để cài tiếp. Chỉ nên tải bộ cài từ trang này hoặc từ link Zalo hỗ trợ gửi.</p></details>
+      <details><summary>OBS có cần chạy cùng máy với Bum Nexus không?</summary><p>Có. Idol mở Bum Nexus và OBS trên cùng một máy Windows là overlay chạy được.</p></details>
+      <details><summary>Cập nhật bản mới như thế nào?</summary><p>App tự báo khi có bản mới. Idol bấm tải rồi khởi động lại để cài, hũ quà, hiệu ứng và Linh Thú của fan vẫn giữ nguyên.</p></details>
+      <details><summary>Cài lại có mất cấu hình không?</summary><p>Không. Idol cài đè bản mới là dùng tiếp cấu hình cũ. Nên xuất backup trong app trước khi nâng cấp lớn cho chắc.</p></details>
+      <details><summary>Cần bật gì trong OBS để app tự thêm nguồn?</summary><p>Trong OBS vào Công cụ <svg class="i i-inline"><use href="#i-arrow"/></svg> Cài đặt WebSocket Server, bật server một lần. Sau đó idol chỉ cần bấm “Thêm & sửa tất cả nguồn” trong app.</p></details>
+    </div>
+  </section>
+
+  <section class="final-section">
+    <div class="wrap final-box">
+      <h2>Bật OBS.<br>Cả phòng cùng quẩy.</h2>
+      <p>Tải Full Trial để idol thử đủ tính năng ngay buổi live tới. Cần người cài giúp, đội hỗ trợ luôn chờ trên Zalo.</p>
+      <div class="final-actions"><a class="btn btn-primary" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a><a class="btn btn-secondary" href="https://zalo.me/0393251599" target="_blank" rel="noopener"><svg class="i"><use href="#i-chat"/></svg>Liên hệ hỗ trợ Zalo</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row"><div class="footer-brand"><img src="assets/icon.png" alt="">BUM NEXUS</div><span>© 2026 Bum Nexus · Hiệu ứng TikTok LIVE cho idol trên Windows</span><span>Hỗ trợ Zalo: 0393 251 599</span></div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <a class="btn btn-primary" href="/tai"><svg class="i"><use href="#i-download"/></svg>Tải xuống</a><a class="btn btn-secondary" href="https://zalo.me/0393251599" target="_blank" rel="noopener"><svg class="i"><use href="#i-chat"/></svg>Liên hệ Zalo</a>
+</div>
+
+<script>
+/* Mỗi mục có 1 file xem trước trong khung điện thoại: đặt GIF/WebP/MP4/WebM vào assets/preview/ đúng tên bên dưới.
+   Dùng .mp4/.webm sẽ phát dạng video (tự chạy, lặp, tắt tiếng); còn lại hiển thị dạng ảnh. */
+const featureData={
+  gift:{media:"assets/preview/01-qua-hu.mp4",title:"Quà fan tặng rơi thẳng vào hũ.",description:"Idol gán video, nhạc, meme cho từng món quà, username, lệnh bình luận, tim và share. Quà rơi vật lý vào 9 mẫu hũ hoặc hũ PNG riêng của idol.",checks:["Hàng chờ đến 5.000 lượt, có nút Giải cứu","Căn vùng đựng quà ngay trên ảnh hũ","Tối đa 5 thanh quà ngang, dọc, tĩnh hoặc cuộn"],visual:"Quà rơi"},
+  pet:{media:"assets/preview/02-linh-thu.mp4",title:"Fan nuôi thú, quay lại mỗi live.",description:"Fan tặng quà triệu hồi trứng rồi cùng nuôi thú qua từng cảnh giới. Fan càng ghé phòng idol, thú càng lớn và mở ra màn trình diễn mới.",checks:["6 loài Linh Thú cho fan chọn","Độ Kiếp, Phi Thăng và Trùng Sinh","Thần Thú bay vào hũ ăn quà"],visual:"Lên cấp"},
+  troll:{media:"assets/preview/03-troll.mp4",title:"Fan tặng quà, idol dính đòn.",description:"Nổ đen mặt, Điện giật, Bị tát và Ném bẩn tự bám khuôn mặt idol qua nguồn camera OBS, không tranh camera với OBS.",checks:["Ba chế độ: Phát đè, Xếp hàng, Bỏ qua","Phát đè tối đa 6 lượt","Tự chạy theo quà fan tặng"],visual:"Dính đòn"},
+  random:{media:"assets/preview/04-random-vao-phong.mp4",title:"Mỗi lượt quay là một thử thách cho idol.",description:"Vòng quay, Thanh trượt và Quỹ đạo tạo thử thách ngay trên live. Fan vào phòng được chào bằng 8 khung hiệu ứng, ưu tiên fan cứng.",checks:["TTS đọc thử thách cho cả phòng","Ưu tiên Enigma, Hộ Vệ, Super Fan","Tự bù fan vào phòng bị TikTok ẩn"],visual:"Quay đi"},
+  rank:{media:"assets/preview/05-bxh-top3.mp4",title:"Fan ủng hộ được lên sóng cùng idol.",description:"BXH Donate, BXH Táp và avatar TOP 3 treo ngay trên màn hình, để fan thấy công sức của mình và thi nhau giữ hạng.",checks:["Avatar TOP 3 treo và lắc lư","Chào TOP khi fan lớn tương tác","BXH cập nhật ngay trong buổi live"],visual:"TOP 3"},
+  sound:{media:"assets/preview/06-chat-tts-sound.mp4",title:"Idol phản ứng nhanh, không lỡ nhịp.",description:"Bình luận, danmaku, giọng đọc TTS, nhạc, video và meme gom về một bảng điều khiển để idol bắt trend ngay khi fan nhắn.",checks:["Soundboard có phím tắt","Hàng đợi video, điều khiển âm thanh qua OBS","Khung chat và danmaku chạy ngang"],visual:"Quẩy lên"}
+};
+const tabs=[...document.querySelectorAll('.tab')];
+const isLocal=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)||location.protocol==='file:';
+let mediaToken=0;
+function renderMedia(d,label){
+  const box=document.getElementById('phoneMedia'),empty=document.getElementById('phoneEmpty'),token=++mediaToken;
+  box.innerHTML='';box.classList.remove('ready');empty.hidden=false;
+  document.getElementById('visualTitle').textContent=d.visual;
+  document.getElementById('phoneLabel').textContent=label;
+  document.getElementById('phoneHint').textContent=isLocal?`Chèn GIF/video: ${d.media}`:'';
+  if(!d.media)return;
+  const isVideo=/\.(mp4|webm)$/i.test(d.media);
+  const el=document.createElement(isVideo?'video':'img');
+  if(isVideo){Object.assign(el,{muted:true,loop:true,autoplay:true,playsInline:true,preload:'auto'});el.setAttribute('muted','');el.setAttribute('playsinline','')}else{el.alt=label}
+  const ok=()=>{if(token!==mediaToken)return;box.classList.add('ready');empty.hidden=true;if(isVideo)el.play().catch(()=>{})};
+  el.addEventListener(isVideo?'loadeddata':'load',ok,{once:true});
+  el.addEventListener('error',()=>{},{once:true});
+  el.src=d.media;box.appendChild(el);
+}
+function renderTab(key){const d=featureData[key];document.getElementById('tabTitle').textContent=d.title;document.getElementById('tabDescription').textContent=d.description;document.getElementById('tabChecks').innerHTML=d.checks.map(x=>`<span>${x}</span>`).join('');tabs.forEach(t=>t.setAttribute('aria-selected',String(t.dataset.tab===key)));const tab=tabs.find(t=>t.dataset.tab===key);renderMedia(d,tab?tab.querySelector('span').textContent:'')}
+tabs.forEach(tab=>tab.addEventListener('click',()=>renderTab(tab.dataset.tab)));renderTab('gift');
+
+const realmNames=['Trứng','Thú non','Thiếu niên','Trưởng thành','Linh Thú','Thần Thú'];
+const realmMeta=['Khởi đầu hành trình','Vừa phá vỏ','Bắt đầu thức tỉnh','Sức mạnh thành hình','Hào quang xuất hiện','Chinh phục phòng LIVE'];
+let currentSpecies='rong',currentName='Rồng Lửa';
+const slider=document.getElementById('evolution'),petImage=document.getElementById('petImage');
+function updatePet(){const level=Number(slider.value);slider.style.setProperty('--progress',`${level/5*100}%`);petImage.classList.add('switching');setTimeout(()=>{petImage.src=`assets/pets/${currentSpecies}-${level}.webp`;petImage.alt=`${realmNames[level]} ${currentName}`;document.getElementById('petLevel').textContent=`Cấp 0${level+1} / 06`;document.getElementById('realmTitle').textContent=`${realmNames[level]} · ${currentName}`;document.getElementById('realmMeta').textContent=realmMeta[level];petImage.classList.remove('switching')},130)}
+slider.addEventListener('input',updatePet);
+document.querySelectorAll('.species-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.species-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSpecies=btn.dataset.species;currentName=btn.dataset.name;updatePet()}));
+
+const sticky=document.getElementById('stickyCta'),hero=document.querySelector('.hero');
+const heroObserver=new IntersectionObserver(([entry])=>{const show=!entry.isIntersecting&&entry.boundingClientRect.bottom<0;sticky.classList.toggle('visible',show);sticky.setAttribute('aria-hidden',String(!show))},{threshold:0});
+heroObserver.observe(hero);
+
+/* ===== Animation ===== */
+const root=document.documentElement;root.classList.add('js');
+// Animation luôn bật, kể cả khi Windows tắt hiệu ứng (prefers-reduced-motion). Thêm ?motion=0 để tắt.
+const forceMotion=!/[?&]motion=0/.test(location.search);if(forceMotion)root.classList.add('force-motion');
+const reduce=!forceMotion&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Tách tiêu đề thành từng dòng (theo <br>)
+document.querySelectorAll('h1,h2,.pet-controls h3').forEach(h=>{
+  const parts=h.innerHTML.split(/<br\s*\/?>/i);
+  h.innerHTML=parts.map((x,i)=>`<span class="line" style="--i:${i}">${x.trim()}</span>`).join('');
+  h.classList.add('anim-lines');
+});
+
+// Hero: chạy lần lượt khi tải trang
+const heroH1=document.querySelector('.hero h1');
+[['.kicker',0],['.hero-lead',520],['.hero-actions',640],['.trust',760],['.live-stage',300]].forEach(([sel,d])=>{const el=document.querySelector(sel);if(el){el.classList.add('hero-in');el.style.setProperty('--d',d+'ms')}});
+heroH1.style.setProperty('--d','120ms');
+requestAnimationFrame(()=>requestAnimationFrame(()=>{hero.classList.add('loaded');heroH1.classList.add('in')}));
+
+// Hiện dần khi cuộn
+const groups=[
+  ['.section-head',''],['.tabs-shell','zoom'],['.pet-view','left'],['.pet-controls','right'],
+  ['.troll-card',''],['.mode-strip',''],['.step',''],['.version',''],['details',''],['.final-box','zoom'],['.stat','']
+];
+groups.forEach(([sel,type])=>document.querySelectorAll(sel).forEach((el,i,all)=>{
+  el.setAttribute('data-reveal',type);
+  if(all.length>1&&!['details'].includes(sel)) el.style.setProperty('--i',i%5);
+}));
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('.anim-lines').forEach(h=>h.classList.add('in'));
+  if(e.target.classList.contains('anim-lines'))e.target.classList.add('in');
+  if(e.target.classList.contains('stat'))countUp(e.target.querySelector('b'));
+  io.unobserve(e.target);
+}),{threshold:.18,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+document.querySelectorAll('.anim-lines').forEach(h=>{if(!h.closest('[data-reveal]')&&h!==heroH1)io.observe(h)});
+
+// Đếm số
+function countUp(b){
+  const raw=b.textContent.trim(),m=raw.match(/^(\d+)(\D*)$/);if(!m||reduce)return;
+  const target=+m[1],pad=m[1].length,suf=m[2],t0=performance.now(),dur=1100;
+  const step=t=>{const k=Math.min(1,(t-t0)/dur),v=Math.round(target*(1-Math.pow(1-k,3)));b.textContent=String(v).padStart(pad,'0')+suf;if(k<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+
+// Header + thanh tiến độ cuộn
+const topbar=document.querySelector('.topbar'),bar=document.createElement('div');bar.className='progress';document.body.appendChild(bar);
+const onScroll=()=>{const y=scrollY,max=root.scrollHeight-innerHeight;topbar.classList.toggle('scrolled',y>20);bar.style.transform=`scaleX(${max>0?y/max:0})`};
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// Tim bay trong khung live
+const screen=document.querySelector('.obs-screen');
+if(screen&&!reduce){const icons=['tim','tim','hoa-hong','sao','qua'];setInterval(()=>{if(document.hidden)return;const h=document.createElement('span');h.className='heart';h.innerHTML='<img src="assets/icons/'+icons[Math.random()*icons.length|0]+'.svg" alt="">';h.style.right=(8+Math.random()*18)+'%';h.style.setProperty('--x',(Math.random()*-80)+'px');h.style.setProperty('--r',(Math.random()*60-30)+'deg');screen.appendChild(h);setTimeout(()=>h.remove(),2700)},420)}
+
+// Khung live nghiêng theo chuột (desktop)
+const stage=document.querySelector('.live-stage');
+if(stage&&matchMedia('(hover:hover)').matches&&!reduce){
+  hero.addEventListener('mousemove',e=>{stage.classList.add('tilting');const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;stage.style.transform=`perspective(900px) rotateY(${x*12}deg) rotateX(${-y*10}deg) rotate(2deg)`});
+  hero.addEventListener('mouseleave',()=>{stage.style.transform='';setTimeout(()=>stage.classList.remove('tilting'),300)});
+}
+
+// Tab đổi nội dung có hiệu ứng
+const panel=document.querySelector('.tab-panel');
+tabs.forEach(t=>t.addEventListener('click',()=>{panel.classList.remove('swap');void panel.offsetWidth;panel.classList.add('swap')}));
+
+// ===== Demo thao tác trên app (bước 2 và 3) =====
+function makeDemo(root,{reset,run,final}){
+  const cursor=root.querySelector('[data-cursor]');let token=0,visible=false;
+  const sleep=(ms,t)=>new Promise((res,rej)=>setTimeout(()=>t===token?res():rej('stop'),ms));
+  const pos=el=>{const r=root.getBoundingClientRect(),b=el.getBoundingClientRect();return [b.left-r.left+b.width*.55,b.top-r.top+b.height*.55]};
+  const api={
+    show(){const r=root.getBoundingClientRect();cursor.style.transition='none';cursor.style.transform=`translate(${r.width-40}px,${r.height-30}px)`;void cursor.offsetWidth;cursor.style.transition='';cursor.style.opacity=1},
+    hide(){cursor.style.opacity=0},
+    async move(el,t){const [x,y]=pos(el);cursor.style.transform=`translate(${x}px,${y}px)`;await sleep(750,t)},
+    async click(el,t){cursor.classList.add('click');el.classList.add('press');await sleep(160,t);el.classList.remove('press');cursor.classList.remove('click');await sleep(120,t)},
+    sleep
+  };
+  async function loop(){const t=++token;try{while(visible){reset();await sleep(700,t);await run(api,t)}}catch(e){}}
+  if(reduce){final();return}
+  new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible)loop();else{token++;reset();api.hide()}},{threshold:.35}).observe(root);
+}
+
+const tk=document.getElementById('demoTiktok');
+if(tk){
+  const q=s=>tk.querySelector(s),pill=q('[data-pill]'),input=q('[data-input]'),text=q('[data-text]'),actions=q('[data-actions]'),btn=q('[data-connect]'),label=btn.querySelector('[data-label]'),icon=btn.querySelector('use'),toast=q('[data-toast]');
+  const setPill=(cls,txt)=>{pill.className='app-pill '+cls;pill.textContent=txt};
+  const connected=()=>{setPill('connected','Đã kết nối');actions.classList.add('done');input.classList.add('locked','has');input.classList.remove('focus');text.textContent='@207bum';btn.classList.remove('busy');toast.classList.add('show')};
+  makeDemo(tk,{
+    reset(){setPill('','Ngoại tuyến');text.textContent='';input.className='app-input';actions.classList.remove('done');btn.classList.remove('busy');label.textContent='Kết nối trực tiếp';icon.setAttribute('href','#i-bolt');toast.classList.remove('show')},
+    async run(a,t){
+      a.show();await a.move(input,t);await a.click(input,t);input.classList.add('focus');
+      for(const ch of '@207bum'){text.textContent+=ch;input.classList.add('has');await a.sleep(95+Math.random()*80,t)}
+      await a.sleep(350,t);await a.move(btn,t);await a.click(btn,t);input.classList.remove('focus');
+      btn.classList.add('busy');icon.setAttribute('href','#i-refresh');label.textContent='Đang kết nối…';setPill('connecting','Đang kết nối');
+      await a.sleep(1500,t);connected();a.hide();await a.sleep(4200,t);
+    },
+    final:connected
+  });
+}
+
+const ob=document.getElementById('demoObs');
+if(ob){
+  const q=s=>ob.querySelector(s),btn=q('[data-fix]'),label=btn.querySelector('[data-label]'),icon=btn.querySelector('use'),items=[...ob.querySelectorAll('[data-src]')],toast=q('[data-toast]'),sub=q('[data-sub]');
+  const done=()=>{items.forEach(li=>li.classList.add('in'));btn.classList.remove('busy');icon.setAttribute('href','#i-wand');label.textContent='Thêm & sửa tất cả nguồn';sub.textContent='Cảnh đang phát: Live TikTok · 1080 × 1920';toast.classList.add('show')};
+  makeDemo(ob,{
+    reset(){items.forEach(li=>li.classList.remove('in'));btn.classList.remove('busy');icon.setAttribute('href','#i-wand');label.textContent='Thêm & sửa tất cả nguồn';sub.textContent='Thêm, sửa và tải lại mọi overlay ngay tại đây';toast.classList.remove('show')},
+    async run(a,t){
+      a.show();await a.move(btn,t);await a.click(btn,t);a.hide();
+      btn.classList.add('busy');icon.setAttribute('href','#i-refresh');label.textContent='Đang thêm nguồn…';
+      await a.sleep(650,t);
+      for(const li of items){li.classList.add('in');await a.sleep(420,t)}
+      done();await a.sleep(4200,t);
+    },
+    final:done
+  });
+}
+
+// Linh Thú lên cấp: vòng sáng + tia
+const petView=document.querySelector('.pet-view'),burst=document.createElement('span');burst.className='burst';petView.appendChild(burst);
+function levelFx(){if(reduce)return;burst.classList.remove('go');void burst.offsetWidth;burst.classList.add('go');
+  for(let i=0;i<12;i++){const s=document.createElement('span');s.className='spark';const a=i/12*Math.PI*2,d=110+Math.random()*70;s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--y',Math.sin(a)*d+'px');petView.appendChild(s);setTimeout(()=>s.remove(),850)}}
+slider.addEventListener('change',levelFx);
+document.querySelectorAll('.species-btn').forEach(b=>b.addEventListener('click',levelFx));
+</script>
+</body>
+</html>
